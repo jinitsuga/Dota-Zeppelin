@@ -4,13 +4,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
+const { client } = require("./client");
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
-const token = process.env.DISCORD_TOKEN;
-console.log(token);
-
-client.login(token);
+// const client = client;
 
 client.commands = new Collection();
 
@@ -50,4 +46,4 @@ for (const file of eventFiles) {
   }
 }
 
-client.login(token);
+exports.client = client;

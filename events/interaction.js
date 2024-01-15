@@ -1,4 +1,6 @@
-const { Events } = require("discord.js");
+const { Events, PermissionFlagsBits } = require("discord.js");
+
+const { client } = require("../client");
 
 module.exports = {
   name: Events.InteractionCreate,
@@ -16,6 +18,22 @@ module.exports = {
 
     try {
       await command.execute(interaction);
+      console.log(interaction);
+      const guild = await client.guilds.fetch(interaction.guildId);
+
+      const recipient = interaction.options._hoistedOptions[0].user;
+      const channel = interaction.channelId;
+      console.log(
+        guild.members.me
+          .permissionsIn(channel)
+          .has(PermissionFlagsBits.SendMessages)
+      );
+
+      console.log("guild id =>", interaction.guildId);
+
+      if (command.data.name == "tip") {
+        console.log(`tip recipient: ${recipient.username}`);
+      }
     } catch (error) {
       console.error(error);
       if (interaction.replied || interaction.deferred) {
