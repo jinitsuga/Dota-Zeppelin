@@ -5,6 +5,7 @@ const path = require("node:path");
 
 const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
 const { client } = require("./client");
+const { createGuild, deleteGuild } = require("./utility/guilds");
 
 client.commands = new Collection();
 
@@ -47,4 +48,12 @@ for (const file of eventFiles) {
 const guildsPath = path.join(__dirname, "guilds");
 client.on("guildCreate", (guild) => {
   console.log(`Joined ${guild.name} with id: ${guild.id}`);
+  createGuild(guildsPath, guild.id);
+});
+
+client.on("guildDelete", (guild) => {
+  console.log(
+    `Kicked from guild ${guild.name} with id: ${guild.id} or guild was deleted.`
+  );
+  deleteGuild(guildsPath, guild.id);
 });
