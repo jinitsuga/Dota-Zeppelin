@@ -6,8 +6,6 @@ const path = require("node:path");
 const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
 const { client } = require("./client");
 
-// const client = client;
-
 client.commands = new Collection();
 
 const foldersPath = path.join(__dirname, "commands");
@@ -46,4 +44,7 @@ for (const file of eventFiles) {
   }
 }
 
-exports.client = client;
+const guildsPath = path.join(__dirname, "guilds");
+client.on("guildCreate", (guild) => {
+  console.log(`Joined ${guild.name} with id: ${guild.id}`);
+});
