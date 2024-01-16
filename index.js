@@ -3,7 +3,7 @@ const fs = require("node:fs");
 
 const path = require("node:path");
 
-const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
+const { Collection } = require("discord.js");
 const { client } = require("./client");
 const { createGuild, deleteGuild } = require("./utility/guilds");
 

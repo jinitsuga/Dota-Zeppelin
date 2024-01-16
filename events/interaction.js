@@ -29,8 +29,6 @@ module.exports = {
           .has(PermissionFlagsBits.SendMessages)
       );
 
-      console.log("guild id =>", interaction.guildId);
-
       if (command.data.name == "tip") {
         console.log(`tip recipient: ${recipient.username}`);
       }

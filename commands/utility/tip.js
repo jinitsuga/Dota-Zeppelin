@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
+const { tipUser } = require("../../utility/tipHandler");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -9,12 +10,16 @@ module.exports = {
     ),
   async execute(interaction) {
     const recipient = interaction.options._hoistedOptions[0].user;
-    // console.log(recipient);
+
+    console.log(interaction.guildId);
     if (recipient == interaction.user) {
+      tipUser(recipient.username, interaction.guildId);
+
       await interaction.reply(
         `${recipient.globalName} just tried tipping themselves. ???? :rofl:`
       );
     } else {
+      tipUser(recipient.username, interaction.guildId);
       await interaction.reply(`Tip sent to ${recipient.globalName}. :coin:`);
     }
   },

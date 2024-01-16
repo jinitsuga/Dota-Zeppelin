@@ -2,7 +2,7 @@ const fs = require("node:fs");
 
 const createGuild = (path, name) => {
   try {
-    fs.writeFileSync(`${path}/${name}.json`, "");
+    fs.writeFileSync(`${path}/${name}.json`, JSON.stringify([]));
     console.log(`Created guild ${name} file.`);
   } catch (err) {
     console.error(err);
