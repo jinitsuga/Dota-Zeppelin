@@ -9,7 +9,13 @@ module.exports = {
     ),
   async execute(interaction) {
     const recipient = interaction.options._hoistedOptions[0].user;
-
-    await interaction.reply(`tip sent to ${recipient.username}`);
+    // console.log(recipient);
+    if (recipient == interaction.user) {
+      await interaction.reply(
+        `${recipient.globalName} just tried tipping themselves. ???? :rofl:`
+      );
+    } else {
+      await interaction.reply(`Tip sent to ${recipient.globalName}. :coin:`);
+    }
   },
 };
