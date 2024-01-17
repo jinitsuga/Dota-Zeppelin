@@ -3,16 +3,17 @@ const path = require("node:path");
 
 const guildsPath = path.join(__dirname, "../guilds");
 
-//
-
-const createUser = (username, guild, users) => {
+// Creates user in the server file.
+// If it's a recipient, 3 usable coins are given, if it's a tipper they're given 2 since
+// they just used one.
+const createUser = (username, guild, users, tipper) => {
   const filePath = path.join(guildsPath, `${guild}.json`);
   const allUsers = users;
 
   const newUser = {
     username: username,
     coins: {
-      usable: 3,
+      usable: tipper ? 2 : 3,
       tipped: 0,
     },
   };
@@ -24,6 +25,7 @@ const createUser = (username, guild, users) => {
   });
 };
 
+// Tips the user, increases recipient "tipped count" by 1 every time.
 const tipUser = async (username, guild) => {
   const filePath = path.join(guildsPath, `${guild}.json`);
   fs.readFile(filePath, async (err, data) => {
@@ -35,10 +37,10 @@ const tipUser = async (username, guild) => {
 
     console.log("PARSED DATA =>", parsedData);
 
-    const existingMember = parsedData.find((user) => user.username == username);
-    if (existingMember) {
+    const memberExists = parsedData.find((user) => user.username == username);
+    if (memberExists) {
       console.log("user already exists");
-      const id = parsedData.indexOf(existingMember);
+      const id = parsedData.indexOf(memberExists);
       parsedData[id].coins.tipped++;
     } else {
       return createUser(username, guild, parsedData);
@@ -51,4 +53,33 @@ const tipUser = async (username, guild) => {
   });
 };
 
-module.exports = { tipUser, createUser };
+// Removes one coin from the user tipping from the daily limit of 3.
+
+const removeUsable = async (username, guild) => {
+  const filePath = path.join(guildsPath, `${guild}.json`);
+  fs.readFile(filePath, async (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+
+    const parsedData = JSON.parse(data);
+
+    const member = parsedData.find((user) => user.username == username);
+    if (member && member.coins.usable > 0) {
+      console.log("user already exists");
+      const id = parsedData.indexOf(member);
+      parsedData[id].coins.usable--;
+    } else if (member && member.coins.usable <= 0) {
+      return false;
+    } else {
+      return createUser(username, guild, parsedData, true);
+    }
+
+    fs.writeFile(filePath, JSON.stringify(parsedData), (err) => {
+      if (err) throw err;
+      console.log("username written in file.");
+    });
+  });
+};
+
+module.exports = { tipUser, createUser, removeUsable };

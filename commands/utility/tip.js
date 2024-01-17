@@ -10,8 +10,8 @@ module.exports = {
     ),
   async execute(interaction) {
     const recipient = interaction.options._hoistedOptions[0].user;
+    console.log("the user using command =>", interaction.user);
 
-    console.log(interaction.guildId);
     if (recipient == interaction.user) {
       tipUser(recipient.username, interaction.guildId);
 
