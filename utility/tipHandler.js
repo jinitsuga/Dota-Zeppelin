@@ -1,4 +1,5 @@
 const fs = require("node:fs");
+const { readFile } = require("node:fs/promises");
 const path = require("node:path");
 
 const guildsPath = path.join(__dirname, "../guilds");
@@ -29,15 +30,18 @@ const createUser = (username, guild, users, tipper) => {
 const tipUser = async (username, guild) => {
   const filePath = path.join(guildsPath, `${guild}.json`);
   fs.readFile(filePath, async (err, data) => {
+    console.log("IS THIS THING ON??");
     if (err) {
       console.error(err);
     }
 
-    const parsedData = JSON.parse(data);
+    const parsedData = await JSON.parse(data);
 
     console.log("PARSED DATA =>", parsedData);
 
-    const memberExists = parsedData.find((user) => user.username == username);
+    const memberExists = await parsedData.find(
+      (user) => user.username == username
+    );
     if (memberExists) {
       console.log("user already exists");
       const id = parsedData.indexOf(memberExists);
@@ -54,7 +58,6 @@ const tipUser = async (username, guild) => {
 };
 
 // Removes one coin from the user tipping from the daily limit of 3.
-
 const removeUsable = async (username, guild) => {
   const filePath = path.join(guildsPath, `${guild}.json`);
   fs.readFile(filePath, async (err, data) => {
@@ -82,4 +85,30 @@ const removeUsable = async (username, guild) => {
   });
 };
 
-module.exports = { tipUser, createUser, removeUsable };
+const checkAvailableCoins = async (username, guild) => {
+  const filePath = path.join(guildsPath, `${guild}.json`);
+
+  let result = "";
+  await readFile(filePath, async (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    const parsedData = await JSON.parse(data);
+
+    const member = await parsedData.find((user) => user.username == username);
+
+    console.log("COIN MEMBERRRRRR =>", member);
+
+    if (!member) {
+      result = true;
+    } else if (member.coins.usable > 0) {
+      result = true;
+    } else {
+      result = false;
+    }
+  });
+
+  return result;
+};
+
+module.exports = { tipUser, createUser, removeUsable, checkAvailableCoins };
