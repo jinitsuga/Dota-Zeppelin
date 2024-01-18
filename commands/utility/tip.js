@@ -19,10 +19,14 @@ module.exports = {
 
     const guildId = interaction.guildId;
 
+    const hasCoins = await checkAvailableCoins(sender.username, guildId);
+
     if (recipient == sender) {
       await interaction.reply(
         `${recipient.globalName} just tried tipping themselves. ???? :rofl:`
       );
+    } else if (!hasCoins) {
+      await interaction.reply("Not enough coins m8.");
     } else {
       await tipUser(recipient.username, guildId);
       await removeUsable(sender.username, guildId);
