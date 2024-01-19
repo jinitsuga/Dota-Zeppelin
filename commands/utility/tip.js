@@ -26,7 +26,9 @@ module.exports = {
         `${recipient.globalName} just tried tipping themselves. ???? :rofl:`
       );
     } else if (!hasCoins) {
-      await interaction.reply("Not enough coins m8.");
+      await interaction.reply(
+        "Not enough coins. Wait for the daily refresh or play some Dota instead. :tada:"
+      );
     } else {
       await tipUser(recipient.username, guildId);
       await removeUsable(sender.username, guildId);

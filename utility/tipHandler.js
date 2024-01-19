@@ -11,7 +11,14 @@ const readGuildFile = async (guild) => {
       throw err;
     }
   });
-  return await JSON.parse(guildReadings);
+  console.log("GUILD READINGS =>", guildReadings);
+
+  if (guildReadings == []) {
+    return guildReadings;
+  }
+
+  const parsedReading = await JSON.parse(guildReadings);
+  return parsedReading;
 };
 
 const writeGuildFile = async (guild, data) => {
@@ -33,8 +40,8 @@ const createUser = (username, guild, users, tipper) => {
   const newUser = {
     username: username,
     coins: {
-      usable: tipper ? 2 : 3,
-      tipped: 0,
+      usable: tipper ? 3 : 4,
+      tipped: tipper ? 0 : 1,
     },
   };
   allUsers.push(newUser);
@@ -100,7 +107,7 @@ const checkAvailableCoins = async (username, guild) => {
   const parsedData = await JSON.parse(fileReadings);
 
   const member = await parsedData.find((user) => user.username == username);
-  console.log("MEMBER COINS", member.coins);
+  console.log("MEMBER COINS", member && member.coins);
 
   if (!member) {
     return true;
