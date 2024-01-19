@@ -57,3 +57,8 @@ client.on("guildDelete", (guild) => {
   );
   deleteGuild(guildsPath, guild.id);
 });
+
+setInterval(() => {
+  console.log("resetting coins!");
+  // Resetting the "usable" coins every 24 hrs
+}, 86400000);

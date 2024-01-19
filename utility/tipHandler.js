@@ -11,7 +11,6 @@ const readGuildFile = async (guild) => {
       throw err;
     }
   });
-  console.log("GUILD READINGS =>", guildReadings);
 
   if (guildReadings == []) {
     return guildReadings;
@@ -64,7 +63,6 @@ const tipUser = async (username, guild) => {
     console.log("user already exists");
     const id = parsedData.indexOf(memberExists);
     parsedData[id].coins.tipped++;
-    console.log("modified data", parsedData);
   } else {
     return createUser(username, guild, parsedData);
   }
@@ -92,13 +90,11 @@ const removeUsable = async (username, guild) => {
 
 const checkAvailableCoins = async (username, guild) => {
   const filePath = path.join(guildsPath, `${guild}.json`);
-  console.log("checking for coins...");
 
   const fileReadings = await filesystem.readFile(
     filePath,
     "utf8",
     async (err, data) => {
-      console.log("reading file...");
       if (err) {
         console.error(err);
       }
@@ -107,7 +103,6 @@ const checkAvailableCoins = async (username, guild) => {
   const parsedData = await JSON.parse(fileReadings);
 
   const member = await parsedData.find((user) => user.username == username);
-  console.log("MEMBER COINS", member && member.coins);
 
   if (!member) {
     return true;

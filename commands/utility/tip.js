@@ -14,7 +14,6 @@ module.exports = {
     ),
   async execute(interaction) {
     const recipient = interaction.options._hoistedOptions[0].user;
-
     const sender = interaction.user;
 
     const guildId = interaction.guildId;
