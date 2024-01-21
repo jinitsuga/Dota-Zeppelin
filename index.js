@@ -59,19 +59,19 @@ client.on("guildDelete", (guild) => {
   deleteGuild(guildsPath, guild.id);
 });
 
-setInterval(async () => {
-  const guildsPath = path.join(__dirname, "./guilds");
-  const guilds = fs.readdirSync(guildsPath);
+// setInterval(async () => {
+//   const guildsPath = path.join(__dirname, "./guilds");
+//   const guilds = fs.readdirSync(guildsPath);
 
-  for (const guild of guilds) {
-    const guildData = await readGuildFile(guild, true);
-    if (guildData == []) continue;
+//   for (const guild of guilds) {
+//     const guildData = await readGuildFile(guild, true);
+//     if (guildData == []) continue;
 
-    guildData.forEach((member) => (member.coins.usable = 4));
-    console.log(guildData);
-    await writeGuildFile(guild, guildData, true);
-  }
-  console.log(guilds);
+//     guildData.forEach((member) => (member.coins.usable = 4));
+//     console.log(guildData);
+//     await writeGuildFile(guild, guildData, true);
+//   }
+//   console.log(guilds);
 
-  // Resetting the "usable" coins every 24 hrs // 86400000
-}, 30000);
+// Resetting the "usable" coins every 24 hrs // 86400000
+// }, 30000);

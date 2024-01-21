@@ -22,8 +22,9 @@ const deleteGuild = (path, name) => {
 // Get guild members, sort them by number of tipped coins, return ordered list of members as strings.
 const getGuildRanks = async (guild) => {
   const guildData = await readGuildFile(guild);
+
   if (guildData == []) {
-    return guildData;
+    return [];
   }
 
   const sortedData = guildData.sort((a, b) => b.coins.tipped - a.coins.tipped);

@@ -73,7 +73,10 @@ const tipUser = async (username, guild, globalName) => {
 
 // Removes one coin from the user tipping from the daily limit of 3.
 const removeUsable = async (username, guild, globalName) => {
+  console.log("REMOVE GUILD ID", guild);
   const parsedData = await readGuildFile(guild);
+
+  console.log("REMOVEUsable parsedata =>", parsedData);
 
   const member = parsedData.find((user) => user.username == username);
   if (member && member.coins.usable > 0) {

@@ -10,12 +10,14 @@ module.exports = {
     const ranks = await getGuildRanks(guildId);
 
     let guildRanks = "";
-    ranks.map((member) => {
-      guildRanks += `${member} \n`;
-    });
 
-    console.log("GUILD RANKS", guildRanks);
-    if (ranks == []) {
+    if (ranks.length > 0) {
+      ranks.map((member) => {
+        guildRanks += `${member} \n`;
+      });
+    }
+
+    if (ranks.length <= 0) {
       await interaction.reply("No tipping has been done yet.");
     } else {
       await interaction.reply(guildRanks);

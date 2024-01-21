@@ -19,11 +19,9 @@ module.exports = {
     const guildId = interaction.guildId;
 
     const hasCoins = await checkAvailableCoins(sender.username, guildId);
-
+    console.log("do they have coins?", hasCoins);
     if (recipient.bot == true) {
-      await interaction.reply(
-        "Thanks for the tip but I'm a bot (:robot:). :sun_with_face:"
-      );
+      await interaction.reply("That's a bot (:robot:). :sun_with_face:");
     } else if (recipient == sender) {
       await interaction.reply(
         `${recipient.globalName} just tried tipping themselves. ???? :rofl:`
