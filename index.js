@@ -65,11 +65,13 @@ setInterval(async () => {
 
   for (const guild of guilds) {
     const guildData = await readGuildFile(guild, true);
-    console.log(guildData);
     if (guildData == []) continue;
+
+    guildData.forEach((member) => (member.coins.usable = 4));
+    console.log(guildData);
+    await writeGuildFile(guild, guildData, true);
   }
   console.log(guilds);
-  console.log("resetting coins!");
 
   // Resetting the "usable" coins every 24 hrs // 86400000
-}, 10000);
+}, 30000);
