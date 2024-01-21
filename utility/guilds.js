@@ -1,5 +1,7 @@
 const fs = require("node:fs");
 
+const readGuildFile = require("../utility/tipHandler");
+
 const createGuild = (path, name) => {
   try {
     fs.writeFileSync(`${path}/${name}.json`, JSON.stringify([]));
@@ -15,6 +17,17 @@ const deleteGuild = (path, name) => {
   } catch (err) {
     console.error(err);
   }
+};
+
+const getGuildRanks = async (guild) => {
+  const guildData = readGuildFile(guild);
+  if (guildData == []) {
+    return guildData;
+  }
+
+  const sortedData = guildData.map((member) => {
+    return `${member.name}`;
+  });
 };
 
 module.exports = { createGuild, deleteGuild };

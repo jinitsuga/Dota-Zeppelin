@@ -32,12 +32,13 @@ const writeGuildFile = async (guild, data, json) => {
 // Creates user in the server file.
 // If it's a recipient, 3 usable coins are given, if it's a tipper they're given 2 since
 // they just used one.
-const createUser = (username, guild, users, tipper) => {
+const createUser = (username, guild, users, tipper, globalName) => {
   const filePath = path.join(guildsPath, `${guild}.json`);
   const allUsers = users;
 
   const newUser = {
     username: username,
+    name: globalName,
     coins: {
       usable: tipper ? 3 : 4,
       tipped: tipper ? 0 : 1,
@@ -52,7 +53,7 @@ const createUser = (username, guild, users, tipper) => {
 };
 
 // Tips the user, increases recipient "tipped count" by 1 every time.
-const tipUser = async (username, guild) => {
+const tipUser = async (username, guild, globalName) => {
   const parsedData = await readGuildFile(guild);
 
   const memberExists = await parsedData.find(
@@ -64,14 +65,14 @@ const tipUser = async (username, guild) => {
     const id = parsedData.indexOf(memberExists);
     parsedData[id].coins.tipped++;
   } else {
-    return createUser(username, guild, parsedData);
+    return createUser(username, guild, parsedData, globalName);
   }
 
   writeGuildFile(guild, parsedData);
 };
 
 // Removes one coin from the user tipping from the daily limit of 3.
-const removeUsable = async (username, guild) => {
+const removeUsable = async (username, guild, globalName) => {
   const parsedData = await readGuildFile(guild);
 
   const member = parsedData.find((user) => user.username == username);
@@ -82,7 +83,7 @@ const removeUsable = async (username, guild) => {
   } else if (member && member.coins.usable <= 0) {
     return false;
   } else {
-    return createUser(username, guild, parsedData, true);
+    return createUser(username, guild, parsedData, true, globalName);
   }
 
   writeGuildFile(guild, parsedData);

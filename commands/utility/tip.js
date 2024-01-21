@@ -20,7 +20,11 @@ module.exports = {
 
     const hasCoins = await checkAvailableCoins(sender.username, guildId);
 
-    if (recipient == sender) {
+    if (recipient.bot == true) {
+      await interaction.reply(
+        "Thanks for the tip but I'm a bot (:robot:). :sun_with_face:"
+      );
+    } else if (recipient == sender) {
       await interaction.reply(
         `${recipient.globalName} just tried tipping themselves. ???? :rofl:`
       );
@@ -29,8 +33,8 @@ module.exports = {
         "Not enough coins. Wait for the daily refresh or play some Dota instead. :tada:"
       );
     } else {
-      await tipUser(recipient.username, guildId);
-      await removeUsable(sender.username, guildId);
+      await tipUser(recipient.username, guildId, recipient.globalName);
+      await removeUsable(sender.username, guildId, sender.globalName);
       await interaction.reply(`Tip sent to ${recipient.globalName}. :coin:`);
     }
   },
