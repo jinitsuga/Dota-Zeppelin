@@ -4,8 +4,8 @@ const path = require("node:path");
 
 const guildsPath = path.join(__dirname, "../guilds");
 
-const readGuildFile = async (guild) => {
-  const filePath = path.join(guildsPath, `${guild}.json`);
+const readGuildFile = async (guild, json) => {
+  const filePath = path.join(guildsPath, json ? `${guild}` : `${guild}.json`);
   const guildReadings = await filesystem.readFile(filePath, "utf8", (err) => {
     if (err) {
       throw err;
@@ -20,8 +20,8 @@ const readGuildFile = async (guild) => {
   return parsedReading;
 };
 
-const writeGuildFile = async (guild, data) => {
-  const filePath = path.join(guildsPath, `${guild}.json`);
+const writeGuildFile = async (guild, data, json) => {
+  const filePath = path.join(guildsPath, json ? `${guild}` : `${guild}.json`);
 
   await filesystem.writeFile(filePath, JSON.stringify(data), (err) => {
     if (err) throw err;
@@ -113,4 +113,11 @@ const checkAvailableCoins = async (username, guild) => {
   }
 };
 
-module.exports = { tipUser, createUser, removeUsable, checkAvailableCoins };
+module.exports = {
+  tipUser,
+  createUser,
+  removeUsable,
+  checkAvailableCoins,
+  readGuildFile,
+  writeGuildFile,
+};

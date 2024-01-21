@@ -6,6 +6,7 @@ const path = require("node:path");
 const { Collection } = require("discord.js");
 const { client } = require("./client");
 const { createGuild, deleteGuild } = require("./utility/guilds");
+const { readGuildFile, writeGuildFile } = require("./utility/tipHandler");
 
 client.commands = new Collection();
 
@@ -58,7 +59,17 @@ client.on("guildDelete", (guild) => {
   deleteGuild(guildsPath, guild.id);
 });
 
-setInterval(() => {
+setInterval(async () => {
+  const guildsPath = path.join(__dirname, "./guilds");
+  const guilds = fs.readdirSync(guildsPath);
+
+  for (const guild of guilds) {
+    const guildData = await readGuildFile(guild, true);
+    console.log(guildData);
+    if (guildData == []) continue;
+  }
+  console.log(guilds);
   console.log("resetting coins!");
-  // Resetting the "usable" coins every 24 hrs
-}, 86400000);
+
+  // Resetting the "usable" coins every 24 hrs // 86400000
+}, 10000);
