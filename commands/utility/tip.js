@@ -14,6 +14,7 @@ const tipMessages = [
   "Epic moves! :tophat:",
   "You're a wizard, Harry! :mage:",
   "Tip-tastic skills! :sparkles:",
+  "Brr Brr, GAMER ALERT! :rotating_light:",
 ];
 
 module.exports = {
