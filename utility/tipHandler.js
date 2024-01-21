@@ -65,7 +65,7 @@ const tipUser = async (username, guild, globalName) => {
     const id = parsedData.indexOf(memberExists);
     parsedData[id].coins.tipped++;
   } else {
-    return createUser(username, guild, parsedData, globalName);
+    return createUser(username, guild, parsedData, false, globalName);
   }
 
   writeGuildFile(guild, parsedData);
