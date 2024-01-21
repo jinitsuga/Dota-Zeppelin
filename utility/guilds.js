@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 
-const readGuildFile = require("../utility/tipHandler");
+const { readGuildFile } = require("../utility/tipHandler");
 
 const createGuild = (path, name) => {
   try {
@@ -19,15 +19,29 @@ const deleteGuild = (path, name) => {
   }
 };
 
+// Get guild members, sort them by number of tipped coins, return ordered list of members as strings.
 const getGuildRanks = async (guild) => {
-  const guildData = readGuildFile(guild);
+  const guildData = await readGuildFile(guild);
   if (guildData == []) {
     return guildData;
   }
 
-  const sortedData = guildData.map((member) => {
-    return `${member.name}`;
-  });
-};
+  const sortedData = guildData.sort((a, b) => b.coins.tipped - a.coins.tipped);
+  const rankedMembers = sortedData.map((memb, id) => {
+    const rank = id + 1;
+    let medal = "";
 
-module.exports = { createGuild, deleteGuild };
+    if (rank == 1) {
+      medal = ":first_place:";
+    } else if (rank == 2) {
+      medal = ":second_place:";
+    } else if (rank == 3) {
+      medal = ":third_place:";
+    }
+    return `${rank}. ${memb.name}: holds ${memb.coins.tipped} coins. ${medal}`;
+  });
+
+  console.log("RANKED MEMBERS =>", rankedMembers);
+  return rankedMembers;
+};
+module.exports = { createGuild, deleteGuild, getGuildRanks };

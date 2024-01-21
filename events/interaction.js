@@ -18,10 +18,9 @@ module.exports = {
 
     try {
       await command.execute(interaction);
-      console.log(interaction);
       const guild = await client.guilds.fetch(interaction.guildId);
 
-      const recipient = interaction.options._hoistedOptions[0].user;
+      const recipient = interaction.options._hoistedOptions[0]?.user;
       const channel = interaction.channelId;
       console.log(
         guild.members.me
