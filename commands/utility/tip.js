@@ -5,6 +5,17 @@ const {
   checkAvailableCoins,
 } = require("../../utility/tipHandler");
 
+const tipMessages = [
+  "Nice one! :coin:",
+  "Well played! :coin:",
+  "LOL nice. :joy:",
+  "Keep it up. :sunglasses:",
+  "You're on fire! Not literally, though. Safety first. :bubbles: :fire_extinguisher:",
+  "Epic moves! :tophat:",
+  "You're a wizard, Harry! :mage:",
+  "Tip-tastic skills! :sparkles:",
+];
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("tip")
@@ -19,7 +30,7 @@ module.exports = {
     const guildId = interaction.guildId;
 
     const hasCoins = await checkAvailableCoins(sender.username, guildId);
-    console.log("do they have coins?", hasCoins);
+
     if (recipient.bot == true) {
       await interaction.reply("That's a bot (:robot:). :sun_with_face:");
     } else if (recipient == sender) {
@@ -31,9 +42,14 @@ module.exports = {
         "Not enough coins. Wait for the daily refresh or play some Dota instead. :tada:"
       );
     } else {
+      const randomMsg =
+        tipMessages[Math.floor(Math.random() * tipMessages.length)];
+
       await tipUser(recipient.username, guildId, recipient.globalName);
       await removeUsable(sender.username, guildId, sender.globalName);
-      await interaction.reply(`Tip sent to ${recipient.globalName}. :coin:`);
+      await interaction.reply(
+        `${sender.globalName} tipped ${recipient.globalName}. ${randomMsg}`
+      );
     }
   },
 };
