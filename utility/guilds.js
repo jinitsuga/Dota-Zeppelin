@@ -39,7 +39,9 @@ const getGuildRanks = async (guild) => {
     } else if (rank == 3) {
       medal = ":third_place:";
     }
-    return `${rank}. ${memb.name}: holds ${memb.coins.tipped} coins. ${medal}`;
+    return `${rank}. ${memb.name}: holds ${memb.coins.tipped} ${
+      memb.coins.tipped !== 1 ? "coins" : "coin"
+    }. ${medal}`;
   });
 
   console.log("RANKED MEMBERS =>", rankedMembers);

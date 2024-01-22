@@ -1,7 +1,7 @@
 {
   "name": "dotatips",
   "version": "1.0.0",
-  "description": "dota discord bot for tipping others",
+  "description": "dota discord bot for tipping other members and have fun.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
