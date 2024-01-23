@@ -19,52 +19,31 @@ const getLiveGames = async () => {
 
   let gamesData = [];
 
-  for (let i; i < byMmr.length; i++) {
+  for (let i = 0; i < byMmr.length; i++) {
+    const game = byMmr[i];
+    const rightNow = new Date();
+    const gameStart = new Date(game.last_update_time * 1000);
+    const lastUpdate = Math.floor(
+      (rightNow.getTime() - gameStart.getTime()) / 1000 / 60
+    );
+
+    if (lastUpdate > 30) continue;
+
     const gameData = { players: [] };
 
-    byMmr[i].players.map((player) => {
+    game.players.map((player) => {
       if (player.name) {
-        gameData.players.push({ name: player.name, hero: player.hero_id });
+        gameData.players.push(player.name);
       }
     });
 
     if (gameData.players.length) {
-      const rightNow = new Date();
-      const gameStart = new Date(game.last_update_time * 1000);
-      const lastUpdate = Math.floor(
-        (rightNow.getTime() - gameStart.getTime()) / 1000 / 60
-      );
-
       gameData.avgMmr = game.average_mmr;
       gameData.lastUpdate = lastUpdate;
       gameData.gameTime = Math.ceil(game.game_time / 60);
     }
     gamesData.push(gameData);
   }
-
-  // const gamesData = byMmr.map((game) => {
-  //   const gameData = { players: [] };
-
-  //   game.players.map((player) => {
-  //     if (player.name) {
-  //       gameData.players.push(player.name);
-  //     }
-  //   });
-
-  //   if (gameData.players.length) {
-  //     const rightNow = new Date();
-  //     const gameStart = new Date(game.last_update_time * 1000);
-  //     const lastUpdate = Math.floor(
-  //       (rightNow.getTime() - gameStart.getTime()) / 1000 / 60
-  //     );
-
-  //     gameData.avgMmr = game.average_mmr;
-  //     gameData.lastUpdate = lastUpdate;
-  //     gameData.gameTime = Math.ceil(game.game_time / 60);
-  //   }
-
-  //   return gameData;
-  // });
 
   console.log(gamesData.filter((game) => game.players.length));
 
