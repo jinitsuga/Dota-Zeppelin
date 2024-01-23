@@ -1,6 +1,12 @@
 const axios = require("axios");
+const { heroes } = require("./heroes");
 
 const openDotaUrl = "https://api.opendota.com/api";
+
+const findHero = (id) => {
+  const hero = heroes.find((hero) => hero.id === id);
+  return hero.localized_name;
+};
 
 const getLiveGames = async () => {
   const reqResult = await fetch(`${openDotaUrl}/live`)
@@ -27,28 +33,29 @@ const getLiveGames = async () => {
       (rightNow.getTime() - gameStart.getTime()) / 1000 / 60
     );
 
-    if (lastUpdate > 30) continue;
+    if (lastUpdate > 25) continue;
 
     const gameData = { players: [] };
 
     game.players.map((player) => {
       if (player.name) {
-        gameData.players.push(player.name);
+        gameData.players.push({
+          name: player.name,
+          hero: player.hero_id ? findHero(player.hero_id) : "Picking hero...",
+        });
       }
     });
 
     if (gameData.players.length) {
       gameData.avgMmr = game.average_mmr;
       gameData.lastUpdate = lastUpdate;
-      gameData.gameTime = Math.ceil(game.game_time / 60);
+      gameData.gameTime = Math.ceil(game.game_time / 60) + lastUpdate;
+      gameData.score = `${game.radiant_score} - ${game.dire_score}`;
     }
     gamesData.push(gameData);
   }
 
-  console.log(gamesData.filter((game) => game.players.length));
-
-  const avgMmrs = byMmr.map((game) => game.average_mmr);
-  return avgMmrs.sort((a, b) => b - a);
+  return gamesData;
 };
 
 module.exports = { getLiveGames };
