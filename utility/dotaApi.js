@@ -21,8 +21,6 @@ const getLiveGames = async () => {
   const sortedGames = reqResult.sort((a, b) => b.average_mmr - a.average_mmr);
   const byMmr = sortedGames.filter((game) => game.deactivate_time === 0);
 
-  console.log(byMmr);
-
   let gamesData = [];
 
   for (let i = 0; i < byMmr.length; i++) {
