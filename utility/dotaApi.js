@@ -12,20 +12,63 @@ const getLiveGames = async () => {
       console.log(error);
     });
 
-  const players = reqResult.map((game) => {
-    let players = [];
+  const sortedGames = reqResult.sort((a, b) => b.average_mmr - a.average_mmr);
+  const byMmr = sortedGames.filter((game) => game.deactivate_time === 0);
 
-    game.players.map((player) => {
+  console.log(byMmr);
+
+  let gamesData = [];
+
+  for (let i; i < byMmr.length; i++) {
+    const gameData = { players: [] };
+
+    byMmr[i].players.map((player) => {
       if (player.name) {
-        players.push(player.name);
+        gameData.players.push({ name: player.name, hero: player.hero_id });
       }
     });
-    return players;
-  });
 
-  console.log(players);
+    if (gameData.players.length) {
+      const rightNow = new Date();
+      const gameStart = new Date(game.last_update_time * 1000);
+      const lastUpdate = Math.floor(
+        (rightNow.getTime() - gameStart.getTime()) / 1000 / 60
+      );
 
-  const avgMmrs = reqResult.map((game) => game.average_mmr);
+      gameData.avgMmr = game.average_mmr;
+      gameData.lastUpdate = lastUpdate;
+      gameData.gameTime = Math.ceil(game.game_time / 60);
+    }
+    gamesData.push(gameData);
+  }
+
+  // const gamesData = byMmr.map((game) => {
+  //   const gameData = { players: [] };
+
+  //   game.players.map((player) => {
+  //     if (player.name) {
+  //       gameData.players.push(player.name);
+  //     }
+  //   });
+
+  //   if (gameData.players.length) {
+  //     const rightNow = new Date();
+  //     const gameStart = new Date(game.last_update_time * 1000);
+  //     const lastUpdate = Math.floor(
+  //       (rightNow.getTime() - gameStart.getTime()) / 1000 / 60
+  //     );
+
+  //     gameData.avgMmr = game.average_mmr;
+  //     gameData.lastUpdate = lastUpdate;
+  //     gameData.gameTime = Math.ceil(game.game_time / 60);
+  //   }
+
+  //   return gameData;
+  // });
+
+  console.log(gamesData.filter((game) => game.players.length));
+
+  const avgMmrs = byMmr.map((game) => game.average_mmr);
   return avgMmrs.sort((a, b) => b - a);
 };
 
