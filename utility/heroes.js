@@ -240,7 +240,7 @@ const heroes = [
     name: "legion_commander",
     id: 104,
     localized_name: "Legion Commander",
-    short: "LC",
+    short: "Legion",
   },
   { name: "techies", id: 105, localized_name: "Techies", short: "Techie" },
   {

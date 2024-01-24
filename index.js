@@ -74,4 +74,4 @@ setInterval(async () => {
   console.log(guilds);
 
   // Resetting the "usable" coins every 24 hrs // 86400000
-}, 86400000);
+}, 30000 * 60);
