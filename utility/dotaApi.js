@@ -5,7 +5,7 @@ const openDotaUrl = "https://api.opendota.com/api";
 
 const findHero = (id) => {
   const hero = heroes.find((hero) => hero.id === id);
-  return hero.localized_name;
+  return hero.short;
 };
 
 const getLiveGames = async () => {

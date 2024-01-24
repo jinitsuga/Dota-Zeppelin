@@ -40,7 +40,7 @@ module.exports = {
       });
 
       fields.push({
-        name: ` Avg: ${game.avgMmr} :sun_with_face:`,
+        name: ` MMR: ${game.avgMmr} :sun_with_face:`,
         value: `⏰: ${game.gameTime}min \n ⚔️: ${game.score} \n ${gamePlayers}`,
         inline: true,
       });
@@ -49,6 +49,12 @@ module.exports = {
     const embedObj = {
       color: 0x0099ff,
       title: "Top Live games",
+      description: "Browse current highest rated games, watch in-game.",
+      footer: {
+        text: "Mango Tree",
+        icon_url:
+          "https://liquipedia.net/commons/images/thumb/7/7b/Mango_tree_plant.png/100px-Mango_tree_plant.png",
+      },
       fields: fields,
     };
     const embed = new EmbedBuilder()
