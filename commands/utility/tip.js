@@ -6,8 +6,8 @@ const {
 } = require("../../utility/tipHandler");
 
 const tipMessages = [
-  "Nice one! :coin:",
-  "Well played! :coin:",
+  "Nice one! :mango:",
+  "Well played! :coin: :mango:",
   "LOL nice. :joy:",
   "Keep it up. :sunglasses:",
   "You're on fire! Not literally, though. Safety first. :bubbles: :fire_extinguisher:",
@@ -40,7 +40,7 @@ module.exports = {
       );
     } else if (!hasCoins) {
       await interaction.reply(
-        "Not enough coins. Wait for the daily refresh or play some Dota instead. :tada:"
+        "Not enough mangoes. Wait for the daily refresh or play some Dota instead. :tada:"
       );
     } else {
       const randomMsg =

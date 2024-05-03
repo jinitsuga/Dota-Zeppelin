@@ -19,7 +19,7 @@ const deleteGuild = (path, name) => {
   }
 };
 
-// Get guild members, sort them by number of tipped coins, return ordered list of members as strings.
+// Get guild members, sort them by number of tipped mangoes, return ordered list of members as strings.
 const getGuildRanks = async (guild) => {
   const guildData = await readGuildFile(guild);
 
@@ -40,7 +40,7 @@ const getGuildRanks = async (guild) => {
       medal = ":third_place:";
     }
     return `${rank}. ${memb.name}: holds ${memb.coins.tipped} ${
-      memb.coins.tipped !== 1 ? "coins" : "coin"
+      memb.coins.tipped !== 1 ? "mangoes" : "mango"
     }. ${medal}`;
   });
 

@@ -4,7 +4,7 @@ const { getGuildRanks } = require("../../utility/guilds");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("rank")
-    .setDescription("Shows members ranked by coins earned."),
+    .setDescription("Shows members ranked by mangoes earned."),
   async execute(interaction) {
     const guildId = interaction.guildId;
     const ranks = await getGuildRanks(guildId);
